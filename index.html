@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تست دیوونگی 🤡</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: Tahoma, sans-serif;
+  color: white;
+  background: radial-gradient(circle at top, #52226b, #100719 75%);
+}
+
+.card {
+  width: 90%;
+  max-width: 380px;
+  padding: 30px 20px;
+  text-align: center;
+  border: 1px solid #b96aff;
+  border-radius: 28px;
+  background: #1c1029;
+  box-shadow: 0 0 40px #a52cff33;
+}
+
+.emoji {
+  font-size: 75px;
+  animation: bob 2s infinite ease-in-out;
+}
+
+@keyframes bob {
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+h1 {
+  color: #f1b2ff;
+  font-size: 26px;
+}
+
+p {
+  color: #ddc6eb;
+  line-height: 2;
+}
+
+.area {
+  position: relative;
+  height: 145px;
+  margin-top: 20px;
+}
+
+button {
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 24px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+#yes {
+  background: #ff48aa;
+  color: white;
+  position: absolute;
+  right: 12%;
+  top: 15px;
+}
+
+#no {
+  background: #eee4ff;
+  color: #351744;
+  position: absolute;
+  left: 12%;
+  top: 15px;
+  transition: left .12s, top .12s;
+}
+
+#result {
+  display: none;
+  margin-top: 15px;
+  color: #ffb7e3;
+  font-size: 20px;
+  line-height: 2;
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.stars span {
+  position: absolute;
+  color: #d9a3ff;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  to { opacity: .2; transform: scale(.6); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<main class="card">
+  <div class="emoji" id="emoji">🤨</div>
+
+  <h1>یه سؤال خیلی مهم!</h1>
+
+  <p id="question">
+    به نظرت خودت دیوونه‌ای؟ 💀
+    <br>
+    راستشو بگو، دوربین مخفی نیست 😂
+  </p>
+
+  <div class="area" id="area">
+    <button id="yes" onclick="answerYes()">آره 😎</button>
+    <button id="no">نه 😇</button>
+  </div>
+
+  <div id="result"></div>
+</main>
+
+<script>
+const no = document.getElementById("no");
+const area = document.getElementById("area");
+
+function escapeButton() {
+  const maxX = area.clientWidth - no.offsetWidth;
+  const maxY = area.clientHeight - no.offsetHeight;
+
+  no.style.left = Math.max(0, Math.random() * maxX) + "px";
+  no.style.top = Math.max(0, Math.random() * maxY) + "px";
+}
+
+// با نزدیک شدن انگشت یا نشانگر، دکمه فرار می‌کند
+no.addEventListener("pointerenter", escapeButton);
+
+no.addEventListener("pointerdown", (event) => {
+  event.preventDefault();
+  escapeButton();
+});
+
+no.addEventListener("click", (event) => {
+  event.preventDefault();
+  escapeButton();
+});
+
+function answerYes() {
+  document.getElementById("emoji").textContent = "🤡";
+  document.getElementById("question").textContent =
+    "حداقل یکی این وسط با خودش صادقه 😂";
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML =
+    "تست تموم شد! 💀<br>تشخیص نهایی: دیوونه‌ی افتخاری 🏆";
+
+  area.style.display = "none";
+
+  for (let i = 0; i < 25; i++) {
+    const el = document.createElement("span");
+    el.className = "stars";
+    el.textContent = ["😂", "🤡", "💀", "✨"][i % 4];
+    el.style.cssText =
+      "position:fixed;inset:auto;left:" +
+      Math.random() * 95 + "vw;top:" +
+      Math.random() * 95 + "vh;font-size:25px;pointer-events:none;";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+// ستاره‌های پس‌زمینه
+for (let i = 0; i < 35; i++) {
+  const s = document.createElement("span");
+  s.textContent = "☆";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.top = Math.random() * 100 + "vh";
+  s.style.fontSize = (10 + Math.random() * 15) + "px";
+  s.style.animationDelay = Math.random() * 2 + "s";
+  document.getElementById("stars").appendChild(s);
+}
+</script>
+
+</body>
+</html>
